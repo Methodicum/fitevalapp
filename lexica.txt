@@ -1,0 +1,86 @@
+wasser	kampf	klassich	yoga	cardio	fitness	kein	winter	reha
+aqua	aikido	badmin	bewegungskurs	ausdauer	7min	beatsaber	langlauf	ckbildungs
+dive	box	ball	ellipse	beweg	aerobic	beruf	schlit	kanga
+drachenboot	capo	ballet	faszien	cardio	arobic	bogen	ski	kieser
+kanu	judo	bergsteig	gesundheitskurs	cross	app	boling	snow	mtl
+kajak	kampfsport	bould	gong	cyclin	ausgleichssport	bowling	winter	mtt
+paddel	karate	danc	ismakogie	ergo	barre	feldenkr		reena
+ruder	krav	hockey	joga	heimtrainer	bauch	feuerwehr		reha
+schwim	kung	golf	yog	hometrain	bein	garten		rückbildung
+sub	tae	flamenco	pilates	homtrain	bellicon	gassi		
+surf	taeakw	jazz	pilstes	indoorcy	body	gehen		
+tauch	tosox	jongl	rücken	inline	bodycombat	gehtraining		
+wasser	wing	klettern	ruecken	interval	bodypumb	gewehr		
+		pferdesport	sonnengru	jogg	bootcamp	gleitschirm		
+		reit	tai	kardio	bop	hund		
+		sambuc	thai	kondition	bürosport	hypox		
+		squash		lauf	calist	job		
+		tanz		mtb	cantienica	kellnern		
+		tennis		rad	circle	kegel		
+		turn		rafahren	core	kein		
+		ultimatefr		rollerblade	crossfit	massage		
+				run	dehn	meditation		
+				spinning	egym	motor		
+				step	e-gym	nein		
+				trim	ems	paragliding		
+				walk	fatburn	physio		
+				waking	fitnes	sauna		
+				wander	flex	schießen		
+					freeletic	schritte		
+					frühsport	spazier		
+					functio	spatz		
+					funktio	stall		
+					fubktionstraining	treppe		
+					gerät	wii		
+					geräte	dfghjf		
+					gewicht	jdfbji		
+					gruppentraining	daf		
+					gym	talaso		
+					handstand			
+					hantel			
+					hiit			
+					hit			
+					homesport			
+					hulla			
+					hula			
+					jump			
+					klimm			
+					kniebeu			
+					körper			
+					kraft			
+					kurs			
+					liege			
+					milon			
+					misssport			
+					mobil			
+					muskel			
+					personal			
+					plank			
+					platte			
+					seilchen			
+					sentis			
+					situp			
+					slashpipe			
+					sling			
+					sport			
+					spring			
+					squad			
+					stabil			
+					station			
+					stretch			
+					streching			
+					strongbyzum			
+					studio			
+					surfgym			
+					tabata			
+					theraband			
+					trampo			
+					training			
+					trx			
+					tv			
+					übung			
+					work			
+					vibrat			
+					vibro			
+					zirkel			
+					zumba			
