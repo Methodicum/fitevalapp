@@ -1,5 +1,5 @@
 #### Packages ####
-# Paketinstalliren noch hinzufügen!
+# Pakete installieren noch hinzufügen!
 library(shiny)
 library(DT)
 library(stringr)
@@ -11,19 +11,19 @@ library(shinyWidgets)
 library(shinythemes)
 
 #### Lexikon ####
-lexica <- read.table("lexica.txt", header = T, sep = "\t")
+lexica <- read.table("lexica.txt", header = T, sep = "\t", )
 lexica_long <- tidyr::pivot_longer(lexica, cols = everything())
 lexica_long <- lexica_long[nchar(lexica_long$value) > 0,]
 
 # Maximale Dateigröße die Shiny hochlädt erhöht von 5MB(standard) zu 30MB
 options(shiny.maxRequestSize=30*1024^2)
-#### APP ####
+
 #### UI ####
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   theme = shinytheme("sandstone"),
     navbarPage(
-        title = "Fitness-Fragebogen-Evaluation-App (FFEA)",
+        title = "Fitness-Fragebogen-Evaluation-App (FFEA) [BETA!]",
         #### Tab: Wörterbuch ####
         tabPanel(
             "Wörterbuch",
@@ -70,7 +70,7 @@ shinyUI(fluidPage(
                             '<br><br>'),
                        HTML("3. Schritt: Messwiederholung kodieren",
                             '<br>',
-                            "Liegt eine Messwiederholung vor, so geben Sie hier bitte die Zeichenkombination ein, nach der diese Messwiederholung anhand des Spaltennamens erkannt werden kann.",
+                            "Liegt eine Messwiederholung vor, so geben Sie hier bitte die Zxeichenkombination ein, nach der diese Messwiederholung anhand des Spaltennamens erkannt werden kann.",
                             "Beispiel: Im Spaltennamen werden Messzeitpunkte mit der Zeichenfolge \"T0\" oder \"T1\" usw. kodiert. Geben Sie diese Reihenfolge in Form von sog. regular Expression an.",
                             "Eingabe wäre dann T[:digit:]. Auf die Art werden alle Kombinationen von T gefolgt von einer Zahl ausgewählt.",
                             '<br><br>'),
@@ -238,53 +238,6 @@ shinyUI(fluidPage(
                                                    )
                                                  )
                                           ))
-                                       
-                                       # column(9,
-                                       #        # radioGroupButtons(
-                                       #        #   inputId = "adjustDuration",
-                                       #        #   label = "Adjustuierung der Sportdauer",
-                                       #        #   choices = c("ja", "nein"),
-                                       #        #   selected = "nein"
-                                       #        #   ),
-                                       #        switchInput(
-                                       #          inputId = "adjustDuration",
-                                       #          label = "Adjustuierung der Sportdauer", 
-                                       #          value = FALSE, 
-                                       #          onLabel = "ja", offLabel = "nein"
-                                       #        ),
-                                       #        switchInput(
-                                       #          inputId = "adjustFrequency",
-                                       #          label = "Adjustuierung der Häufigkeit", 
-                                       #          value = FALSE, 
-                                       #          onLabel = "ja", offLabel = "nein", 
-                                       #          width = "250px"
-                                       #          )
-                                       #        ),
-                                       # column(3,
-                                       #        # radioGroupButtons(
-                                       #        #   inputId = "adjustFrequency",
-                                       #        #   label = "Adjustuierung der Häufigkeit",
-                                       #        #   choices = c("ja", "nein"),
-                                       #        #   selected = "nein"
-                                       #        #   ),
-                                       #        numericInput(
-                                       #          inputId = "cutDuration",
-                                       #          # label = "Cutoff\n(in Minuten)",
-                                       #          label = " ",
-                                       #          value = 120,
-                                       #          min = 1, 
-                                       #          width = "80px"
-                                       #        ),
-                                       #        numericInput(
-                                       #          inputId = "cutFrequency",
-                                       #          # label = "Cutoff\n(Tage im Monat)",
-                                       #          label = " ",
-                                       #          value = 31,
-                                       #          min = 1,
-                                       #          max = 31, 
-                                       #          width = "80px"
-                                       #          )
-                                       #        )
                                        ),
                                      HTML("<b>5. Schritt: Aufbereitung</b><br>"),
                                      actionButton(
@@ -300,72 +253,6 @@ shinyUI(fluidPage(
                    )
             )
           ),
-          # fluidRow(
-          #   column(3,
-          #          multiInput(inputId = "Variablen",
-          #                     label = "Spalten: Texteinträge",
-          #                     choices = NA,
-          #                     selected = "")
-          #   ),
-          #   column(3,
-          #          multiInput(inputId = "Variablen2",
-          #                     label = "Spalten: Anzahl-Tage",
-          #                     choices = NA,
-          #                     selected = "")
-          #   ),
-          #   column(3,
-          #          multiInput(inputId = "Variablen3",
-          #                     label = "Spalten: Anzahl Minuten",
-          #                     choices = NA,
-          #                     selected = "")
-        #     ),
-        #     column(3,
-        #            selectInput(inputId = "ID_Var",
-        #                        label = "Spalte mit ID-Variable",
-        #                        choices = "", 
-        #                        multiple = F, 
-        #                        selectize = F),
-        #            HTML("<br><br>"),
-        #            textInput(inputId = "MZPID", 
-        #                      label = "3. Schritt: Kennung für Messwiederholung",
-        #                      value = "keine Messwiederholung"),
-        #            HTML("<b>4. Schritt: Aufbereitung</b><br><br>"),
-        #            actionButton(inputId = "Aufbereiten",
-        #                         label = "Aufbereiten"),
-        #            htmlOutput("aufbereitet_info"),
-        #            
-        #            fluidRow(
-        #              column(6,
-        #                     radioGroupButtons(inputId = "adjustDuration",
-        #                                       label = "Adjustuierung der Sportdauer",
-        #                                       choices = c("ja", "nein"), 
-        #                                       selected = "nein"),
-        #                     numericInput(inputId = "cutDuration",
-        #                                  label = "Cutoff\n(in Minuten)", 
-        #                                  value = 120,
-        #                                  min = 1, width = "100px")
-        #              ),
-        #              column(6,
-        #                     radioGroupButtons(inputId = "adjustFrequency",
-        #                                       label = "Adjustuierung der Häufigkeit",
-        #                                       choices = c("ja", "nein")),
-        #                     numericInput(inputId = "cutFrequency",
-        #                                  label = "Cutoff\n(Tage im Monat)", 
-        #                                  value = 31,
-        #                                  min = 1, max = 31, width = "100px")
-        #                     )
-        #            )
-        #            ),
-        #     
-        #   ),
-        #   fluidRow(
-        #     column(12,
-        #            HTML("<b>Vorschau der Auswahl</b><br>"),
-        #            tableOutput("daten"),
-        #            tableOutput("prep")
-        #     )
-        #   )
-        # ),
         #### Tab: Daten aufbereiten ####
         tabPanel(
           "Daten aufbereiten",
@@ -390,41 +277,29 @@ shinyUI(fluidPage(
                                      actionButton(inputId = "getData",
                                                   label = "aufbereitete Daten anzeigen"),
                                      HTML(
-                                       "<br><br><br>",
-                                       "Durch ein Klicken auf \"Export\" werden die aufbereiteten Daten als *.csv-Daten exportiert.",
-                                       "<br><br><br>"
+                                       "<br><br><br><br>",
+                                       "Herunterladen der vollständigen Daten:",
+                                       "<br>"
                                        ),
-                                     actionButton(inputId = "Export",
-                                                  label = "Daten exportieren")
-                                     ))
+                                     # actionButton(inputId = "Export",
+                                     #              label = "Daten exportieren")
+                                     downloadButton(outputId = "Export1",
+                                                    label = "Kompletter Datenexport")
+                                     )
+                              ),
+                            fluidRow(
+                              column(12,
+                                     HTML(
+                                       "<br><br>",
+                                       "Herunterladen von nur den, über alle als gültig erkannte, aggregierten Personenwerten:",
+                                       "<br>"
+                                     ),
+                                     downloadButton(outputId = "Export2",
+                                                    label = "Nur Personenwerte exportieren"))
                               )
                             )
+                     )
                    )
-            #     column(4,
-            #            HTML(
-            #                "In diesem Abschnitt werden die aufbereiteten Daten gezeigt. In der Tabelle können die Einträge sowie Kategorien manuell Bearbeitet werden.",
-            #                "<br><br>",
-            #                "Alle nicht kategorisierbaren Einträge können im Suchfeld der Kategorien unter \"NICHT KATEGORISIERT\" gefiltert werden."
-            #                )
-            #            ),
-            #     column(4,
-            #            actionButton(inputId = "getData",
-            #                         label = "aufbereitete Daten anzeigen")
-            #            ),
-            #     column(4,
-            #            HTML(
-            #                "Durch ein Klicken auf \"Export\" werden die aufbereiteten Daten als *.csv-Daten exportiert.",
-            #                "<br><br><br>"
-            #            ),
-            #            actionButton(inputId = "Export",
-            #                         label = "Daten exportieren")
-            #            )
-            # ),
-            # fluidRow(
-            #     column(10,
-            #            DT::dataTableOutput("editDF"),
-            #            htmlOutput("keinedaten")
-            #            )
             )
         ),
         #### Tab: Deskriptive Statistiken ####
@@ -433,7 +308,18 @@ shinyUI(fluidPage(
           column(5,
                  plotOutput("Grafik_SA")
           )
+        ),
+        tabPanel(
+          "Info",
+          column(12,
+                 HTML(
+                   "ACHTUNG: Aktuell noch Beta-Version!",
+                   "<br>",
+                   "Autoren: Ramona Wurst & Matthias Sehlbrede"
+                   )
+                 )
         )
+        
         
         #### Tabs: Ende ####            
     )

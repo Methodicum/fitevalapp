@@ -1,5 +1,5 @@
 #### Packages ####
-# Paketinstalliren noch hinzufügen!
+# Pakete installieren noch hinzufügen!
 library(shiny)
 library(DT)
 library(stringr)
@@ -14,6 +14,19 @@ library(shinythemes)
 #### SERVER ####
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
+  
+  lexica <- read.table("lexica.txt", header = T, sep = "\t", encoding = "UTF-8")
+  lexica_long <- tidyr::pivot_longer(lexica, cols = everything())
+  lexica_long <- lexica_long[nchar(lexica_long$value) > 0,]
+  
+  lexica_long$value <- tolower(lexica_long$value)
+  
+  lexica_long$value <- gsub("Ã¼", "ue", lexica_long$value) # kleines ü (ue)
+  lexica_long$value <- gsub("Ãœ", "Ue", lexica_long$value) # großes Ü (Ue)
+  lexica_long$value <- gsub("Ã¤", "ae", lexica_long$value) # kleines ä (ae)
+  lexica_long$value <- gsub("Ã¶", "oe", lexica_long$value) # kleines ö (oe)
+  lexica_long$value <- gsub("ÃŸ", "ss", lexica_long$value) # kleines sz/ß
+  
   #### Tab: Wörterbuch ####
   # Zuerst das Lexikon als veränderbare Datentabelle ausgeben
   output$lexi <- renderDT(lexica_long, server = T,
@@ -33,25 +46,6 @@ shinyServer(function(input, output, session) {
                              rownames = F
     )
   })
-  
-  # output$lexi <- DT::renderDataTable({
-  #     if(input$Lex_Cat == "Alle")
-  #         DT::datatable(lexica_long, 
-  #                       rownames = F,
-  #                       colnames = c("Sportkategorie", "Eintrag"),
-  #                       filter = "top",
-  #                       options = list(
-  #                           pageLength = 10
-  #                       ))
-  #     else
-  #         DT::datatable(lexica_long[lexica_long$name == input$Lex_Cat,],
-  #                       rownames = F,
-  #                       colnames = c("Sportkategorie", "Eintrag"),
-  #                       filter = "top",
-  #                       options = list(
-  #                           pageLength = 10
-  #                       ))
-  # })
   
   
   #### Tab: Externe Daten einlesen ####
@@ -136,6 +130,17 @@ shinyServer(function(input, output, session) {
                                       names_to = "Variablenname",
                                       values_to = "Eintrag")
     
+    # ASCII-Kodierungen manuell ersetzen, sollte das Encoding nicht klappen...
+    text_entry$Eintrag <- gsub("Ã¼|ü", "ue", text_entry$Eintrag) # kleines ü (ue)
+    text_entry$Eintrag <- gsub("Ãœ|Ü", "Ue", text_entry$Eintrag) # großes Ü (Ue)
+    text_entry$Eintrag <- gsub("Ã¤|ä", "ae", text_entry$Eintrag) # kleines ä (ae)
+    text_entry$Eintrag <- gsub("Ã¶|ö", "oe", text_entry$Eintrag) # kleines ö (oe)
+    text_entry$Eintrag <- gsub("ÃŸ|ß", "ss", text_entry$Eintrag) # kleines sz/ß
+    
+    # UTF-8 Format 
+    text_entry$Eintrag <- enc2utf8(as.character(text_entry$Eintrag))
+    
+    
     ## wie viele Tage pro Woche? long-format
     sport_tim <- df()[, names(df()) %in% c(input$ID_Var,
                                            input$Variablen2)]
@@ -174,12 +179,12 @@ shinyServer(function(input, output, session) {
     # fertig aufbereiteten und kategorisierten variablen sind
     x$Variablenname <- paste(x$Variablenname, "neu", sep = "_")
     
-    # ASCII-Kodierungen manuell ersetzen, sollte das Encoding nicht klappen...
-    x$Eintrag <- gsub("Ã¼", "ü", x$Eintrag) # kleines ü (ue)
-    x$Eintrag <- gsub("Ãœ", "Ü", x$Eintrag) # großes Ü (Ue)
-    x$Eintrag <- gsub("Ã¤", "ä", x$Eintrag) # kleines ä (ae)
-    x$Eintrag <- gsub("Ã¶", "ö", x$Eintrag) # kleines ö (oe)
-    x$Eintrag <- gsub("ÃŸ", "ß", x$Eintrag) # kleines sz/ß
+    # # ASCII-Kodierungen manuell ersetzen, sollte das Encoding nicht klappen...
+    # x$Eintrag <- gsub("Ã¼", "ü", x$Eintrag) # kleines ü (ue)
+    # x$Eintrag <- gsub("Ãœ", "Ü", x$Eintrag) # großes Ü (Ue)
+    # x$Eintrag <- gsub("Ã¤", "ä", x$Eintrag) # kleines ä (ae)
+    # x$Eintrag <- gsub("Ã¶", "ö", x$Eintrag) # kleines ö (oe)
+    # x$Eintrag <- gsub("ÃŸ", "ß", x$Eintrag) # kleines sz/ß
     
     # Einträge aus dem Lexikon werden gematcht mit den "wahren" Einträgen
     # aus dem Datensatz. Die Einträge werden dafür in lower-case formatiert
@@ -259,14 +264,14 @@ shinyServer(function(input, output, session) {
                               server = T,
                               editable = "cell",
                               rownames = F,
-                              colnames = c("Id",
+                              colnames = c("Case-Id",
                                            "Item",
-                                           "Eintrag",
-                                           "Anzahl in 4 Wochen",
-                                           "Dauer pro Einheit",
-                                           "Kategorie",
-                                           "Sport-Scoring pro Eintrag",
-                                           "Messzeitpunkt"),
+                                           "Raw text entry",
+                                           "Frequency (per weeK)",
+                                           "Duration",
+                                           "Category",
+                                           "Scoring",
+                                           "Measurement time point"),
                               filter = "top",
                               options = list(
                                 # dom = 'Bfrtip',
@@ -292,25 +297,58 @@ shinyServer(function(input, output, session) {
   # und als csv (;-getrennt) exportiert.
   # Außerdem wird ein Datensatz exportiert in dem nur die Personenscores
   # pro Messzeitpunkt enthalten sind. Auch dieser ist im wide-format exportiert.
-  observeEvent(input$Export, {
-    
-    x <- DFs$df2
-    x <- dplyr::select(x, -Eintrag)
-    x <- tidyr::pivot_wider(x,
-                            names_from = Variablenname,
-                            values_from = name)
-    
-    y <- DFs$df2
-    y <- dplyr::select(y, idvar = input$ID_Var, MZP, SA)
-    y <- y %>% group_by(idvar, MZP) %>% 
-      summarise(SA = sum(SA, na.rm = T), .groups = "drop")
-    y <- tidyr::pivot_wider(y,
-                            names_from = MZP,
-                            values_from = SA)
-    
-    write.csv2(x, "sa_output_test.csv", row.names = F)
-    write.csv2(y, "sa_Personscore.csv", row.names = F)
-  })
+  # observeEvent(input$Export, {
+  #   
+  #   x <- DFs$df2
+  #   x <- dplyr::select(x, -Eintrag)
+  #   x <- tidyr::pivot_wider(x,
+  #                           names_from = Variablenname,
+  #                           values_from = name)
+  #   
+  #   y <- DFs$df2
+  #   y <- dplyr::select(y, idvar = input$ID_Var, MZP, SA)
+  #   y <- y %>% group_by(idvar, MZP) %>% 
+  #     summarise(SA = sum(SA, na.rm = T), .groups = "drop")
+  #   y <- tidyr::pivot_wider(y,
+  #                           names_from = MZP,
+  #                           values_from = SA)
+  #   
+  #   # where <- choose.dir()
+  #   # setwd(where)
+  #   # write.csv2(x, "sa_output_test.csv", row.names = F)
+  #   # write.csv2(y, "sa_Personscore.csv", row.names = F)
+  #   
+  # })
+  
+  output$Export1 <- downloadHandler(
+    filename = function() {
+      paste("FFEA_fulldata-", Sys.Date(), ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv2(DFs$df2 %>% 
+                   dplyr::select(-Eintrag) %>%
+                   pivot_wider(names_from = "Variablenname",
+                               values_from = "name"), 
+                 row.names = F,
+                 file)
+    }
+  )
+  
+  output$Export2 <- downloadHandler(
+    filename = function() {
+      paste("FFEA_personscore-", Sys.Date(), ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv2(DFs$df2 %>% 
+                   dplyr::select(idvar = input$ID_Var, MZP, SA) %>% 
+                   group_by(idvar, MZP) %>% 
+                   summarise(SA = sum(SA, na.rm = T), .groups = "drop") %>% 
+                   pivot_wider(names_from = "MZP",
+                               values_from = "SA"), 
+                 row.names = F,
+                 file)
+    }
+  )
   
   #### Tab: Deskriptive Statistik ####
   
